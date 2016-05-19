@@ -17,7 +17,7 @@ RUN pip install  -r requirements.txt
 
 ADD . /usr/src/app
 
-ENV PROD TRUE
+ENV PROD FALSE
 ENV WEB_CONCURRENCY 4
 ENV NEW_RELIC_CONFIG_FILE /usr/src/app/newrelic.ini
 

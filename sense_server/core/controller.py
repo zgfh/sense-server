@@ -62,11 +62,11 @@ def read_posts(ids):
     map(read_post, ids)
 
 
-def unread_post(ids):
+def unread_posts(ids):
     map(unread_post, ids)
 
 
-def unread_posts(id):
+def unread_post(id):
     model.unread_post(id)
 
 

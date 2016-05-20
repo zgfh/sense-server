@@ -22,13 +22,13 @@ def is_new(cur, pre):
     return True
 
 
-def _is_new(cur):
-    p = model.get_post(cur['id'])
-    if p:
-        if p.read_ts > model.ZERO_TIMESTAMP:
-            return False
-
-    return True
+# def _is_new(cur):
+#     p = model.get_post(cur['id'])
+#     if p:
+#         if p.read_ts > model.ZERO_TIMESTAMP:
+#             return False
+#
+#     return True
 
 
 def simplify_post(post):
@@ -51,7 +51,7 @@ def list_post(read=False):
     else:
         all_posts = es_query(index=master_index, doc_type=post_doc_type)
 
-        raw_data = filter(lambda x: _is_new(x), all_posts)
+        raw_data = filter(lambda x: is_new(x, fetch_post_from_backup_index(x['id'])), all_posts)
     return map(simplify_post, raw_data)
 
 

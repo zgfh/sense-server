@@ -38,7 +38,7 @@ def es_result_to_list(result):
 
 
 def es_query(index, **kwargs):
-    return es_result_to_list(es_client.search(index=index, doc_type=kwargs.get("doc_type")))
+    return es_result_to_list(es_client.search(index=index, doc_type=kwargs.get("doc_type"), params={"offsets": -1}))
 
 
 def fetch_post(index, id):

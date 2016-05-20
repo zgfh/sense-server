@@ -38,7 +38,7 @@ def simplify_post(post):
         post['is_read'] = p.read_ts > model.ZERO_TIMESTAMP
     else:
         post['is_favorite'] = False
-        p['is_read'] = False
+        post['is_read'] = False
 
     return post
 

@@ -15,9 +15,9 @@ routes = (
     (['GET'], "/posts", api.list_post_api),
     (['PUT'], "/posts/<id>/read", api.read_post_api),
     (['PUT'], "/posts/<id>/unread", api.unread_post_api),
-    (['GET'], "/api/v1/favorites", api.list_favorites_api),
-    (['POST'], "/api/v1/favorites", api.add_favorites_api),
-    (['DELETE'], "/api/v1/favourites", api.remove_favorites_api),
+    (['GET'], "/favorites", api.list_favorites_api),
+    (['POST'], "/favorites", api.add_favorites_api),
+    (['DELETE'], "/favourites", api.remove_favorites_api),
 
 )
 

@@ -4,7 +4,7 @@ from sqlalchemy import Column
 
 from sense_server.db import Base, session_scope
 
-ZERO_TIMESTAMP = datetime.datetime(1970, 1, 1)
+ZERO_TIMESTAMP = datetime.datetime(1970, 1, 2)
 
 
 class Post(Base):
@@ -13,7 +13,8 @@ class Post(Base):
     read_ts = Column(sa.TIMESTAMP)
     is_favorite = Column(sa.BOOLEAN)
 
-    def __init__(self, read_ts=None, is_favorite=False):
+    def __init__(self, id, read_ts=None, is_favorite=False):
+        self.id = id
         if read_ts is None:
             self.read_ts = ZERO_TIMESTAMP
 
@@ -46,7 +47,10 @@ def read_post(id):
     with session_scope(force_close=True) as session:
         post = get_post(id)
         if not post:
-            return
+            p = Post(id, read_ts=datetime.datetime.now())
+            session.add(p)
+            return p
+
         post.read_ts = datetime.datetime.now()
         return post
 
@@ -67,7 +71,7 @@ def add_favorites(ids):
             if p:
                 p.is_favorite = True
             else:
-                p = Post(is_favorite=True)
+                p = Post(id=id, is_favorite=True)
                 session.add(p)
 
         return None

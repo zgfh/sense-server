@@ -27,3 +27,9 @@ def merge_json():
         import werkzeug.datastructures
 
         request.values = werkzeug.datastructures.CombinedMultiDict([request.args, request.form, json])
+
+
+def str2bool(s, default=True):
+    if s is None:
+        return default
+    return str(s) in ("True", "true", "1")

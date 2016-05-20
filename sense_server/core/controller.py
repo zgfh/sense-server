@@ -23,13 +23,21 @@ def is_new(cur, pre):
 
 
 def simplify_post(post):
-    # TBD
-    return post
+    p = model.get_post(post['id'])
+    if p:
+        post['is_favorite'] = p.is_favorite
+    else:
+        post['is_favorite'] = False
+
+    return p or post
 
 
-def list_post():
-    all_posts = es_query(index=master_index, doc_type=post_doc_type)
-    raw_data = filter(lambda x: is_new(x, fetch_post_from_backup_index(x["id"])), all_posts)
+def list_post(read=False):
+    if read:
+        raw_data = es_query(index=backup_index, doc_type=post_doc_type)
+    else:
+        all_posts = es_query(index=master_index, doc_type=post_doc_type)
+        raw_data = filter(lambda x: is_new(x, fetch_post_from_backup_index(x["id"])), all_posts)
     return map(simplify_post, raw_data)
 
 
@@ -43,6 +51,7 @@ def read_post(id):
     if post is None:
         return {}
     backup_read_post(id, post)
+    model.read_post(id)
     return post
 
 
@@ -51,9 +60,10 @@ def unread_post(id):
 
 
 def list_favorites():
-    posts = map(lambda x: x.to_dict, model.list_favorite_post())
-    return map(lambda x: fetch_post_from_master_index(x['id']), posts
-               )
+    posts = map(lambda x: x.to_dict(), model.list_favorite_post())
+    map(lambda x: x.update(fetch_post_from_master_index(x['id'])), posts
+        )
+    return posts
 
 
 def add_favorites(ids):

@@ -2,7 +2,7 @@ import controller
 
 from flask import request
 
-from sense_server.app import json_resp
+from sense_server.app import json_resp, str2bool
 
 
 def ping():
@@ -16,7 +16,9 @@ def remove_favorites_api():
 
 
 def list_post_api():
-    return json_resp(controller.list_post())
+    read = str2bool(request.values.get("read"), False)
+
+    return json_resp(controller.list_post(read=read))
 
 
 def read_post_api(id):

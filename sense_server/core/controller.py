@@ -29,7 +29,7 @@ def simplify_post(post):
     else:
         post['is_favorite'] = False
 
-    return p or post
+    return post
 
 
 def list_post(read=False):

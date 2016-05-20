@@ -34,7 +34,10 @@ def simplify_post(post):
 
 def list_post(read=False):
     if read:
-        raw_data = es_query(index=backup_index, doc_type=post_doc_type)
+        posts = model.list_read_post()
+        raw_data = map(lambda x: fetch_post_from_backup_index(x.id), posts)
+
+
     else:
         all_posts = es_query(index=master_index, doc_type=post_doc_type)
         raw_data = filter(lambda x: is_new(x, fetch_post_from_backup_index(x["id"])), all_posts)
@@ -55,7 +58,15 @@ def read_post(id):
     return post
 
 
-def unread_post(id):
+def read_posts(ids):
+    map(read_post, ids)
+
+
+def unread_post(ids):
+    map(unread_post, ids)
+
+
+def unread_posts(id):
     model.unread_post(id)
 
 

@@ -33,9 +33,17 @@ def list_favorite_post():
         return session.query(Post).filter_by(is_favorite=True).all()
 
 
-def remove_favorites(ids):
+def list_read_post():
     with session_scope() as session:
-        session.query(Post).filter(Post.c.id.in_(ids)).delete()
+        return session.query(Post).filter(Post.read_ts > ZERO_TIMESTAMP).all()
+
+
+def remove_favorites(ids):
+    with session_scope(force_close=True) as session:
+        for id in ids:
+            p = get_post(id)
+            if p:
+                p.is_favorite = False
 
 
 def get_post(id):

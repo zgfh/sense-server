@@ -14,6 +14,8 @@ routes = (
     (['GET'], "/ping", api.ping),
     (['GET'], "/posts", api.list_post_api),
     (['PUT'], "/posts/<id>/read", api.read_post_api),
+    (['POST'], "/posts/read", api.read_posts_api),
+    (['POST'], "/posts/unread", api.unread_posts_api),
     (['PUT'], "/posts/<id>/unread", api.unread_post_api),
     (['GET'], "/favorites", api.list_favorites_api),
     (['POST'], "/favorites", api.add_favorites_api),

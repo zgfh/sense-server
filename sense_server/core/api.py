@@ -30,6 +30,17 @@ def unread_post_api(id):
     return json_resp({})
 
 
+def read_posts_api():
+    ids = request.values.get("ids")
+    controller.read_posts(ids)
+    return json_resp(ids)
+
+
+def unread_posts_api():
+    ids = request.values.get("ids")
+    controller.unread_posts(ids)
+    return json_resp(ids)
+
 def list_favorites_api():
     return json_resp(controller.list_favorites())
 
